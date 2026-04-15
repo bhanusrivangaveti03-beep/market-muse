@@ -1,5 +1,7 @@
-import { BarChart3, Home, Search, PieChart, TrendingUp, LineChart } from "lucide-react";
+import { BarChart3, Home, Search, PieChart, TrendingUp, LogOut } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Sidebar,
   SidebarContent,
@@ -9,6 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
 
 const navItems = [
@@ -19,6 +22,8 @@ const navItems = [
 ];
 
 export function AppSidebar() {
+  const { user, logout } = useAuth();
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -48,6 +53,19 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      {user && (
+        <SidebarFooter className="p-4 border-t border-border">
+          <div className="flex items-center justify-between">
+            <div className="truncate">
+              <p className="text-sm font-medium truncate">{user.name}</p>
+              <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+            </div>
+            <Button variant="ghost" size="icon" onClick={logout} title="Logout">
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </div>
+        </SidebarFooter>
+      )}
     </Sidebar>
   );
 }
